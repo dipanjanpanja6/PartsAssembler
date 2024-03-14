@@ -1,5 +1,7 @@
-import { BaseModel, column, scope } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column, scope } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
+import Product from './product.js'
 
 export default class Part extends BaseModel {
   @column({ isPrimary: true })
@@ -14,11 +16,17 @@ export default class Part extends BaseModel {
   @column()
   declare quantity: number
 
+  @column()
+  declare product_id: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @belongsTo(() => Product, { foreignKey: 'product_id' })
+  declare product: BelongsTo<typeof Product>
 
   static relatedParts = scope((query, part_id: number) => {
     query

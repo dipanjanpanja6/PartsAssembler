@@ -5,8 +5,9 @@ export default class PartsController {
   /**
    * Display a list of resource
    */
-  async index({}: HttpContext) {
-    return Part.all()
+  async index({ view }: HttpContext) {
+    const parts = await Part.query().preload('product')
+    return view.render('pages/parts', { props: { parts } })
   }
 
   /**
