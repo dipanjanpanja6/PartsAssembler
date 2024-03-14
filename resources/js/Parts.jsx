@@ -3,6 +3,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  AppBar,
   Box,
   Chip,
   Container,
@@ -14,10 +15,11 @@ import {
   MenuItem,
   Stack,
   TextField,
+  Toolbar,
   Typography,
 } from '@mui/material'
 import { Fragment, useEffect, useState } from 'react'
-import PartsCanvas from './3D/Parts/Canvas.jsx'
+import PartsCanvas from './3D/Products/Canvas.jsx'
 import { getProps } from './utils.ts'
 
 export default function Parts() {
@@ -48,6 +50,13 @@ export default function Parts() {
   return (
     <Grid container>
       <Grid item md={6}>
+        <AppBar position="relative" variant="outlined">
+          <Toolbar>
+            <Typography variant="h6" fontWeight="bold">
+              Parts assembler
+            </Typography>
+          </Toolbar>
+        </AppBar>
         <Container maxWidth="md">
           <Box sx={{ my: 4 }}>
             {/* <Typography variant="h5" component="h1">
@@ -70,12 +79,16 @@ export default function Parts() {
               </IconButton>
             </Stack>
 
-            <Typography variant="h5" component="h1" gutterBottom>
-              Suggested products
-            </Typography>
-            {[...suggestedProducts.values()].map((product) => (
-              <Chip key={product.id} label={product.name} onClick={handleAddProduct(product)} />
-            ))}
+            {suggestedProducts.size > 0 && (
+              <>
+                <Typography variant="h5" component="h1" gutterBottom>
+                  Suggested products
+                </Typography>
+                {[...suggestedProducts.values()].map((product) => (
+                  <Chip key={product.id} label={product.name} onClick={handleAddProduct(product)} />
+                ))}
+              </>
+            )}
 
             <Typography variant="h5" gutterBottom sx={{ mt: 2 }}>
               Selected parts
@@ -115,13 +128,17 @@ function SelectedParts({ handleAdd, selectedParts, ...selectedPart }) {
   return (
     <Accordion>
       <AccordionSummary expandIcon={<ExpandMore />}>{selectedPart.name}</AccordionSummary>
+      <Divider variant='middle'/>
       <AccordionDetails>
+        <Typography gutterBottom color="text.secondary">
+          Related parts:
+        </Typography>
         {relatedParts?.length
           ? relatedParts.map((relatedPart, i) => {
               const existPart = selectedParts.some((part) => part.id === relatedPart.id)
               return (
                 <Fragment key={relatedPart.id}>
-                  <ListItemButton onClick={handleAdd(relatedPart)} disabled={existPart}>
+                  <ListItemButton dense onClick={handleAdd(relatedPart)} disabled={existPart}>
                     <ListItemText primary={relatedPart.name} secondary={relatedPart.quantity} />
                   </ListItemButton>
 

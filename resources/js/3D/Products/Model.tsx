@@ -2,6 +2,7 @@ import { Html, useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
 import * as THREE from 'three'
+import HeroPage from './HeroPage.jsx'
 
 export default function Model({ selectedParts, ...props }: any) {
   const group = useRef<THREE.Group>()
@@ -26,8 +27,8 @@ export default function Model({ selectedParts, ...props }: any) {
           <mesh geometry={nodes['Cube008_2'].geometry}>
             {/* Drei's HTML component can "hide behind" canvas geometry */}
             <Html className="content" rotation-x={-Math.PI / 2} position={[0, 0.05, -0.09]} transform occlude>
-              <div className="wrapper" onPointerDown={(e) => e.stopPropagation()}>
-                {/* <HeroPage /> */}
+              <div className="wrapper" hidden={!getVisible('Display')} onPointerDown={(e) => e.stopPropagation()}>
+                <HeroPage />
               </div>
             </Html>
           </mesh>
