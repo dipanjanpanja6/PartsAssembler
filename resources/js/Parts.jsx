@@ -5,6 +5,7 @@ import {
   AccordionSummary,
   AppBar,
   Box,
+  Button,
   Chip,
   Container,
   Divider,
@@ -50,54 +51,61 @@ export default function Parts() {
   return (
     <Grid container>
       <Grid item md={6}>
-        <AppBar position="relative" variant="outlined">
-          <Toolbar>
-            <Typography variant="h6" fontWeight="bold">
-              Parts assembler
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Container maxWidth="md">
-          <Box sx={{ my: 4 }}>
-            {/* <Typography variant="h5" component="h1">
+        <Box height={'100vh'} overflow="auto">
+          <AppBar position="sticky" variant="outlined">
+            <Toolbar>
+              <Typography variant="h6" fontWeight="bold">
+                Parts assembler
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <Container maxWidth="md">
+            <Box sx={{ my: 4 }}>
+              {/* <Typography variant="h5" component="h1">
               Select parts
             </Typography> */}
-            <Stack direction="row" spacing={2} alignItems="center" sx={{ my: 2 }}>
-              <TextField fullWidth label="Select parts" size="small" select onChange={handleSelect} value={state.part?.id || ''}>
-                <MenuItem disabled>Select</MenuItem>
-                {props.parts?.map((part) => (
-                  <MenuItem key={part.id} value={part.id}>
-                    {part.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <IconButton aria-label="" onClick={handleAdd(state.part)}>
-                <Add />
-              </IconButton>
-              <IconButton aria-label="" onClick={handleEdit}>
-                <Edit />
-              </IconButton>
-            </Stack>
+              <Stack direction="row" spacing={2} alignItems="center" sx={{ my: 2 }}>
+                <TextField fullWidth label="Select parts" size="small" select onChange={handleSelect} value={state.part?.id || ''}>
+                  <MenuItem disabled>Select</MenuItem>
+                  {props.parts?.map((part) => (
+                    <MenuItem key={part.id} value={part.id}>
+                      {part.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <IconButton aria-label="" onClick={handleAdd(state.part)}>
+                  <Add />
+                </IconButton>
+                <IconButton aria-label="" onClick={handleEdit}>
+                  <Edit />
+                </IconButton>
+              </Stack>
 
-            {suggestedProducts.size > 0 && (
-              <>
-                <Typography variant="h5" component="h1" gutterBottom>
-                  Suggested products
-                </Typography>
-                {[...suggestedProducts.values()].map((product) => (
-                  <Chip key={product.id} label={product.name} onClick={handleAddProduct(product)} />
-                ))}
-              </>
-            )}
+              {suggestedProducts.size > 0 && (
+                <>
+                  <Typography variant="h5" component="h1" gutterBottom>
+                    Suggested products
+                  </Typography>
+                  {[...suggestedProducts.values()].map((product) => (
+                    <Chip key={product.id} label={product.name} onClick={handleAddProduct(product)} />
+                  ))}
+                </>
+              )}
 
-            <Typography variant="h5" gutterBottom sx={{ mt: 2 }}>
-              Selected parts
-            </Typography>
-            {selectedParts?.map((selectedPart) => (
-              <SelectedParts key={selectedPart.id} {...selectedPart} selectedParts={selectedParts} handleAdd={handleAdd} />
-            ))}
-          </Box>
-        </Container>
+              <Typography variant="h5" gutterBottom sx={{ mt: 2 }}>
+                Selected parts
+              </Typography>
+              {selectedParts?.map((selectedPart) => (
+                <SelectedParts key={selectedPart.id} {...selectedPart} selectedParts={selectedParts} handleAdd={handleAdd} />
+              ))}
+            </Box>
+          </Container>
+          <Stack mb={2} mr={7} alignItems="flex-end">
+            <Button variant="contained" size="large">
+              Submit
+            </Button>
+          </Stack>
+        </Box>
       </Grid>
       <Grid item md={6}>
         <Box height={'100vh'} borderLeft={1} sx={{ background: 'linear-gradient(180deg, #e6eaf5 0%, #f6f6f6 80%)' }} position="relative" id="three-container">
@@ -128,7 +136,7 @@ function SelectedParts({ handleAdd, selectedParts, ...selectedPart }) {
   return (
     <Accordion>
       <AccordionSummary expandIcon={<ExpandMore />}>{selectedPart.name}</AccordionSummary>
-      <Divider variant='middle'/>
+      <Divider variant="middle" />
       <AccordionDetails>
         <Typography gutterBottom color="text.secondary">
           Related parts:
